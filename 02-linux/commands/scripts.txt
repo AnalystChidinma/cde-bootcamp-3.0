@@ -1,0 +1,23 @@
+ rm -rf = to delete files and directories recursively and forcefully
+ nano = to edit files in the terminal
+ curl = to download files from the internet
+ awk = to process and analyze text files
+ sed = to perform text transformations on files
+ grep = to search for patterns in files or for filtering output
+ grep -c = to count the number of lines that match a pattern
+ grep -r = to search recursively through directories for a pattern
+ echo = to print text or variables to the terminal
+ find = to search for files and directories based on various criteria
+ . = search will start from where you are currently in
+ -name "*.log" = This is a filter that tells find to only for files that end with .log
+ * = This is a wildcard that matches any number of characters in a filename or directory name
+ -mtime = standards for modification time in days
+ -1 = meaning less than 1 day old
+ ./ = tell shell to look for a script in the current directory
+
+ ## LINUX ASSIGNMENT
+ scripts/          = Bash scripts
+raw/              = downloaded original CSV
+Transformed/      = transformed CSV
+Gold/             = final loaded data
+json_and_CSV/     = CSV/JSON files moved by Task 3
