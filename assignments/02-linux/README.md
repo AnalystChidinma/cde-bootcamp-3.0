@@ -72,20 +72,11 @@ The project was implemented using Linux command-line tools and Bash.
 
 ## Tools used
 Bash
+
 Linux/Ubuntu
-curl
-awk
-mkdir
-cp
-mv
-basename
-ls
-head
-chmod
-find
-printf
-cron
+
 Git
+
 GitHub
 
 ## Task 1 — Bash ETL Pipeline
@@ -101,11 +92,9 @@ export CSV_URL="https://www.stats.govt.nz/assets/Uploads/Annual-enterprise-surve
 
 Using an environment variable prevents the URL from being hardcoded directly into the curl command.
 
-Using an environment variable prevents the URL from being hardcoded directly into the curl command.
+` curl -L "$CSV_URL" -o "$RAW_FILE" `
 
-curl -L "$CSV_URL" -o "$RAW_FILE"
-
-*Why curl is used*
+*Why curl is used?*
 
 curl is a Linux command-line utility used to transfer data from a URL.
 
@@ -120,11 +109,17 @@ The downloaded file is stored in: raw/
 The script also checks whether the file exists after the download:
 
 if [ -f "$RAW_FILE" ]; then
+
     echo "SUCCESS: CSV file saved to:"
+
     echo "$RAW_FILE"
+
 else
+
     echo "ERROR: CSV file was not saved."
+
     exit 1
+
 fi
 
 This provides a confirmation message and prevents the pipeline from continuing if extraction fails.
@@ -151,7 +146,7 @@ Instead, awk examines the header row and determines the position of each require
 
 The relevant logic is:
 
-NR == 1 {
+`NR == 1 {
     for (i = 1; i <= NF; i++) {
         if ($i == "year") year_col = i
         if ($i == "Value") value_col = i
@@ -161,8 +156,8 @@ NR == 1 {
 
     print "year", "Value", "Units", "variable_code"
     next
-}
-*Why awk is useful here*
+}`
+*Why awk is useful here?*
 
 awk is particularly useful for processing structured text and delimited files from the Linux command line.
 
@@ -241,7 +236,7 @@ Before executing the Bash scripts, executable permissions were assigned using:
 ## Git Version Control
 All project work was version-controlled using Git.
 
-The assignment was developed on a dedicated Git branch: `assignment/linux`
+The assignment was developed on a dedicated Git branch called `assignment/linux`
 
 ## Key Linux Concepts Demonstrated
 
@@ -265,7 +260,7 @@ Some of the key lessons from the project include:
 
 1) Bash can be used for simple ETL workloads:
 
-Linux command-line utilities such as curl and awk can perform extraction and basic transformation tasks efficiently.
+    Linux command-line utilities such as curl and awk can perform extraction and basic transformation tasks efficiently.
 
 2) Environment variables improve configuration management.
 
@@ -288,5 +283,7 @@ The project also demonstrates operational automation through cron and file manag
 Finally, the entire implementation is version-controlled using Git.
 
 **Author**
+
 **Chidinma Okeh**
+
 **Data Engineering**
