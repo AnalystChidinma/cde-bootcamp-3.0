@@ -4,3 +4,5 @@ assignments/02-linux/raw/
 assignments/02-linux/Transformed/
 assignments/02-linux/Gold/
 
+#log file
+etl.log
