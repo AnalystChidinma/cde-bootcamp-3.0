@@ -88,8 +88,8 @@ cron
 Git
 GitHub
 
-- Task 1 — Bash ETL Pipeline
-## Extract
+## Task 1 — Bash ETL Pipeline
+# Extract
 
 The first stage of the pipeline downloads the source CSV dataset.
 
@@ -129,7 +129,7 @@ fi
 
 This provides a confirmation message and prevents the pipeline from continuing if extraction fails.
 
-## Transform
+# Transform
 
 After extraction, the raw CSV is transformed using awk.
 
@@ -187,7 +187,7 @@ The resulting file is saved as:` Transformed/2023_year_finance.csv`
 
 The script then checks that the transformed file was successfully created.
 
-## Load
+# Load
 
 The final stage of the pipeline loads the transformed dataset into the Gold directory.
 
@@ -212,3 +212,81 @@ The ETL script uses:`set -e`
 This tells Bash to stop execution when a command returns a non-zero exit status.
 
 This is important in an ETL pipeline because the next stage should not execute if an earlier stage has failed.
+
+## Task 2 — Cron Job Scheduling
+
+The assignment required the ETL script to run automatically every day at 12:00 AM.
+
+This was implemented using the Linux cron scheduling service.
+
+The cron configuration is: `0 0 * * * /home/chidinma/cde-bootcamp-3.0/assignments/02-linux/scripts/etl.sh >> /home/chidinma/cde-bootcamp-3.0/assignments/02-linux/scripts/etl.log 2>&1`
+
+The cron job is configured to execute the ETL script using its absolute path because cron executes jobs in a different environment from an interactive terminal session.
+
+![etl_log](image.png)
+
+
+## Task 3 — CSV and JSON File Management
+
+The assignment required a Bash script capable of moving CSV and JSON files from one directory into a directory called: `json_and_csv`
+This was implemented in `scripts/move_files.sh`
+
+This script get the absolute path project directory dynamically `SOURCE_DIR="$(cd "$(dirname "$0")/.." && pwd)"`
+
+The ETL script can be executed manually from the parent directory using `./scripts/etl.sh`
+
+Before executing the Bash scripts, executable permissions were assigned using:
+`chmod +x scripts/etl.sh` `chmod +x scripts/move_files.sh`
+
+## Git Version Control
+All project work was version-controlled using Git.
+
+The assignment was developed on a dedicated Git branch: `assignment/linux`
+
+## Key Linux Concepts Demonstrated
+
+- Shell Variables - `SOURCE_DIR="...", DEST_DIR="..."`
+- Environmental variable - `export csv_url`
+- Conditional Statement - `if [ -f "$RAW_FILE" ]; then`
+- loop - `for file in "$SOURCE_DIR"/*.csv; do`
+- directory - `mkdir -p`
+- file movement - `mv "$file" "$DEST_DIR/"`
+- file copying - `cp "$TRANSFORMED_FILE" "$GOLD_DIR/"`
+- file permission - `chmod +x scripts/etl.sh`
+- text processing - `awk`
+- HTTP file download -`curl'
+- schduling - `crontab -e`
+
+## Lessons Learned
+
+This project demonstrated how basic Linux tools can be combined to create a functional data pipeline without relying on a high-level programming language.
+
+Some of the key lessons from the project include:
+
+1) Bash can be used for simple ETL workloads:
+
+Linux command-line utilities such as curl and awk can perform extraction and basic transformation tasks efficiently.
+
+2) Environment variables improve configuration management.
+
+3) Checking whether files exist after each stage prevents the pipeline from silently continuing after a failure.
+
+4) A Bash script can be scheduled to run automatically without manual intervention.
+
+5) Linux provides powerful tools for data engineering.
+
+Commands such as awk, curl, mv, cp, find, and chmod form an important foundation for working with data infrastructure.
+
+## Conclusion
+
+This project demonstrates a complete introductory Data Engineering workflow implemented entirely with Bash and Linux utilities.
+
+The pipeline extracts data from an external source, stores the raw data, transforms the required fields, loads the resulting dataset into a Gold directory, and provides confirmation messages at each stage.
+
+The project also demonstrates operational automation through cron and file management through a separate Bash script.
+
+Finally, the entire implementation is version-controlled using Git.
+
+**Author**
+**Chidinma Okeh**
+**Data Engineering**
