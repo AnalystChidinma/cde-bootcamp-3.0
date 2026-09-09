@@ -17,6 +17,7 @@ The project uses Bash scripting and standard Linux command-line utilities to:
      - `Value`
      - `Units`
      - `variable_code`
+    
 4. Store the transformed dataset in a `Transformed` directory.
 5. Load the transformed dataset into a `Gold` directory.
 6. Schedule the ETL pipeline to run automatically every day at 12:00 AM using a cron job.
@@ -72,8 +73,11 @@ The project was implemented using Linux command-line tools and Bash.
 
 ## Tools used
 Bash
+
 Linux/Ubuntu
+
 Git
+
 GitHub
 
 ## Task 1 — Bash ETL Pipeline
@@ -89,7 +93,7 @@ export CSV_URL="https://www.stats.govt.nz/assets/Uploads/Annual-enterprise-surve
 
 Using an environment variable prevents the URL from being hardcoded directly into the curl command.
 
-Using an environment variable prevents the URL from being hardcoded directly into the curl command.
+` curl -L "$CSV_URL" -o "$RAW_FILE" `
 
 `curl -L "$CSV_URL" -o "$RAW_FILE"`
 
@@ -165,6 +169,7 @@ NR == 1 {
     print "year", "Value", "Units", "variable_code"
     next
 }
+
 *Why awk is useful here?*
 
 awk is particularly useful for processing structured text and delimited files from the Linux command line.
@@ -257,7 +262,7 @@ Before executing the Bash scripts, executable permissions were assigned using:
 
 All project work was version-controlled using Git.
 
-The assignment was developed on a dedicated Git branch: `assignment/linux`
+The assignment was developed on a dedicated Git branch called `assignment/linux`
 
 ## Key Linux Concepts Demonstrated
 
@@ -291,7 +296,7 @@ Some of the key lessons from the project include:
 
 1) Bash can be used for simple ETL workloads:
 
-Linux command-line utilities such as curl and awk can perform extraction and basic transformation tasks efficiently.
+    Linux command-line utilities such as curl and awk can perform extraction and basic transformation tasks efficiently.
 
 2) Environment variables improve configuration management.
 
