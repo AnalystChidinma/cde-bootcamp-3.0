@@ -73,18 +73,6 @@ The project was implemented using Linux command-line tools and Bash.
 ## Tools used
 Bash
 Linux/Ubuntu
-curl
-awk
-mkdir
-cp
-mv
-basename
-ls
-head
-chmod
-find
-printf
-cron
 Git
 GitHub
 
@@ -103,9 +91,9 @@ Using an environment variable prevents the URL from being hardcoded directly int
 
 Using an environment variable prevents the URL from being hardcoded directly into the curl command.
 
-curl -L "$CSV_URL" -o "$RAW_FILE"
+`curl -L "$CSV_URL" -o "$RAW_FILE"`
 
-*Why curl is used*
+*Why curl is used?*
 
 curl is a Linux command-line utility used to transfer data from a URL.
 
@@ -120,11 +108,17 @@ The downloaded file is stored in: raw/
 The script also checks whether the file exists after the download:
 
 if [ -f "$RAW_FILE" ]; then
+
     echo "SUCCESS: CSV file saved to:"
+
     echo "$RAW_FILE"
+
 else
+
     echo "ERROR: CSV file was not saved."
+
     exit 1
+
 fi
 
 This provides a confirmation message and prevents the pipeline from continuing if extraction fails.
@@ -141,8 +135,11 @@ Selects only the required columns.
 The required columns are:
 
 - year
+
 - Value
+
 - Units
+
 - variable_code
 
 The transformation does not assume that these columns are in a specific position in the CSV.
@@ -152,25 +149,34 @@ Instead, awk examines the header row and determines the position of each require
 The relevant logic is:
 
 NR == 1 {
+
     for (i = 1; i <= NF; i++) {
+
         if ($i == "year") year_col = i
+
         if ($i == "Value") value_col = i
+
         if ($i == "Units") units_col = i
+
         if ($i == "Variable_code") variable_col = i
+
     }
 
     print "year", "Value", "Units", "variable_code"
     next
 }
-*Why awk is useful here*
+*Why awk is useful here?*
 
 awk is particularly useful for processing structured text and delimited files from the Linux command line.
 
 Instead of assuming:
 
 year = column 1
+
 Value = column 2
+
 Units = column 3
+
 Variable_code = column 4
 
 the script searches for the column names in the header.
@@ -180,7 +186,9 @@ This makes the transformation more robust if the order of columns in the source 
 For each data row, the script then outputs only the selected columns:
 
 {
+
     print $year_col, $value_col, $units_col, $variable_col
+
 }
 
 The resulting file is saved as:` Transformed/2023_year_finance.csv`
@@ -196,11 +204,17 @@ The transformed file is copied using:`cp "$TRANSFORMED_FILE" "$GOLD_DIR/"`
 The script then checks whether the file exists in the Gold directory:
 
 if [ -f "$GOLD_DIR/$(basename "$TRANSFORMED_FILE")" ]; then
+
     echo "SUCCESS: File loaded into Gold:"
+
     echo "$GOLD_DIR/$(basename "$TRANSFORMED_FILE")"
+
 else
+
     echo "ERROR: File was not loaded into Gold."
+
     exit 1
+
 fi
 
 The resulting pipeline is there
@@ -223,7 +237,7 @@ The cron configuration is: `0 0 * * * /home/chidinma/cde-bootcamp-3.0/assignment
 
 The cron job is configured to execute the ETL script using its absolute path because cron executes jobs in a different environment from an interactive terminal session.
 
-![etl_log](image.png)
+![etl_log](images/image.png)
 
 
 ## Task 3 — CSV and JSON File Management
@@ -236,9 +250,11 @@ This script get the absolute path project directory dynamically `SOURCE_DIR="$(c
 The ETL script can be executed manually from the parent directory using `./scripts/etl.sh`
 
 Before executing the Bash scripts, executable permissions were assigned using:
+
 `chmod +x scripts/etl.sh` `chmod +x scripts/move_files.sh`
 
 ## Git Version Control
+
 All project work was version-controlled using Git.
 
 The assignment was developed on a dedicated Git branch: `assignment/linux`
@@ -246,15 +262,25 @@ The assignment was developed on a dedicated Git branch: `assignment/linux`
 ## Key Linux Concepts Demonstrated
 
 - Shell Variables - `SOURCE_DIR="...", DEST_DIR="..."`
+
 - Environmental variable - `export csv_url`
+
 - Conditional Statement - `if [ -f "$RAW_FILE" ]; then`
+
 - loop - `for file in "$SOURCE_DIR"/*.csv; do`
+
 - directory - `mkdir -p`
+
 - file movement - `mv "$file" "$DEST_DIR/"`
+
 - file copying - `cp "$TRANSFORMED_FILE" "$GOLD_DIR/"`
+
 - file permission - `chmod +x scripts/etl.sh`
+
 - text processing - `awk`
+
 - HTTP file download -`curl'
+
 - schduling - `crontab -e`
 
 ## Lessons Learned
@@ -288,5 +314,7 @@ The project also demonstrates operational automation through cron and file manag
 Finally, the entire implementation is version-controlled using Git.
 
 **Author**
+
 **Chidinma Okeh**
+
 **Data Engineering**
